@@ -15,6 +15,7 @@ env:
                                                # containerDefinitions section of your task definition
                      # containerDefinitions section of your task definition
 # This workflow will build a docker container and push it to Amazon ECR
+# so that it can be deployed to Amazon ECS.
 permissions:
   contents: read
 
