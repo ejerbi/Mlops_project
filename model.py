@@ -3,12 +3,17 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 from sklearn.linear_model import LinearRegression
 import pickle
+import mlflow
+import mlflow.sklearn
 
 # Charger les données
 file_path = "Loan_Data.csv"
 df = pd.read_csv(file_path)
 
+# Initialiser MLflow
+mlflow.set_experiment("Suivi des modèles")
 # Afficher les premières lignes et les informations générales
+
 
 
 # Suppression de l'ID client
@@ -29,11 +34,24 @@ X_test_scaled = scaler.transform(X_test)
 # Vérification des dimensions après prétraitement
 X_train_scaled.shape, X_test_scaled.shape
 
-# Initialiser le modèle de régression linéaire
-model = LinearRegression()
+with mlflow.start_run():
+    # Entraîner le modèle
+    model = RandomForestClassifier(n_estimators=100, random_state=42)
+    model.fit(X_train_scaled, y_train)
+    
+    # Prédictions et calcul des métriques
+    y_pred = model.predict(X_test_scaled)
+    accuracy = accuracy_score(y_test, y_pred)
+    
+    # Enregistrer les métriques
+    mlflow.log_metric("accuracy", accuracy)
 
-# Entraîner le modèle sur les données d'entraînement
-model.fit(X_train_scaled, y_train)
+    # Enregistrer le modèle
+    mlflow.sklearn.log_model(model, "random_forest_model")
+
+    print(f"Accuracy enregistrée dans MLflow: {accuracy}")
+
+
 
 # Prédire les valeurs sur l'ensemble de test
 with open('model.pkl', 'wb') as file:

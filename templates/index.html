@@ -39,12 +39,12 @@
             <br>
         </form>
         <br><br>
-        <h3 id="resultDisplay">{{ prediction_text }}</h3>
+        <h3 id="result"style="color: white;">{{ prediction_text }}</h3>
     </div>
 
     <style>
         body {
-            background-color: #0a0a33;
+            background-color: #000033;
             text-align: center;
             padding: 0px;
             color: white;
@@ -77,16 +77,15 @@
         }
     </style>
 
-    <script>
-        function showResult() {
-            const resultDisplay = document.getElementById("resultDisplay");
-            resultDisplay.innerHTML = "Calculating...";
-
-            setTimeout(() => {
-                resultDisplay.innerHTML = "{{ prediction_text }}";
-            }, 1000); 
-        }
-    </script>
-</body>
+<script>
+    function showResult(event) {
+        event.preventDefault();
+        const resultElement = document.getElementById('result');
+        resultElement.innerHTML = "Loading result...";
+        setTimeout(() => {
+            resultElement.innerHTML = "{{ prediction_text }}";
+        }, 1000);
+    }
+</script>
 
 </html>
