@@ -38,7 +38,7 @@ apples_experiment = client.search_experiments(
     filter_string="tags.project_name = 'mlops PROJECT'"
 )
 
-# mlflow.set_tracking_uri("http://127.0.0.1:5000")
+mlflow.set_tracking_uri("http://127.0.0.1:5000")
 loan_experiment = mlflow.set_experiment("Loan prediction")
 
 # Chargement des données
